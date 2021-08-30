@@ -1,0 +1,33 @@
+{
+  "general": {},
+  "filters": [
+    {
+      "group": "battle_minor",
+      "category": "hitevents_miss",
+      "expressions": [
+        "The (.+), but the attack glances away!",
+        "(.+), but the attack is deflected by The (.+)'s (.+)!",
+        "(.+), but it is deflected by The (.+)'s (.+)!",
+        "The (.+) strikes at The (.+) but the shot is parried!",
+        "The (.+) strikes at The (.+) but the shot is ((deftly )|(easily )|(narrowly )|(just barely )|(effortlessly )|())parried by (.+)!",
+        "The (.+) strikes at The (.+) but the shot is ((deftly )|(easily )|(narrowly )|(just barely )|(effortlessly )|())deflected by (.+)!",
+        "The (.+) The (.+) but the shot is blocked(.+)",
+        "The flying (.+) misses (.+)!",
+        "(.+) blocks The flying (.+)!",
+        "The (.+) misses The (.+)!"
+      ]
+    },
+    {
+      "group": "battle_minor",
+      "category": "status",
+      "expressions": [
+        "The (.+) (has been stunned|is knocked over|has been knocked unconscious|stands up|passes out|falls over|regains consciousness|is no longer stunned).+",
+        "The (.+) (charges at|collides with) The (.+)!",
+        "They tangle together and (.+)!",
+        "The (.+) bounces backward!",
+        "The (.+) collapses and falls to the ground from over-exertion\\.",
+        "The (.+) looks surprised by the ferocity of ((The (.+)'s)|(Your)) onslaught!"
+      ]
+    }
+  ]
+}

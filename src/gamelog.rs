@@ -7,16 +7,14 @@ use std::time::Duration;
 
 use notify::{DebouncedEvent, RecommendedWatcher, RecursiveMode, Watcher};
 
-use crate::event::{Event, EventSender, EventReceiver};
+use crate::event::{Event, EventReceiver, EventSender};
 
 pub struct Gamelog {
     path: PathBuf,
 }
 
 impl Gamelog {
-    pub fn new(path: &str) -> Self {
-        let path = PathBuf::from(path);
-
+    pub fn new(path: PathBuf) -> Self {
         Self { path }
     }
 

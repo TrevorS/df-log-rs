@@ -4,14 +4,25 @@ pub type EventSender = mpsc::Sender<Event>;
 pub type EventReceiver = mpsc::Receiver<Event>;
 
 #[derive(Debug)]
-pub struct Event {
-    message: String,
+pub enum Event {
+    Announcement {
+        line: String,
+        group: Option<String>,
+        category: Option<String>,
+    },
 }
 
 impl Event {
-    pub fn new(message: &str) -> Self {
-        let message = String::from(message);
+    pub fn new(line: &str) -> Self {
+        let line = String::from(line);
 
-        Self { message }
+        let group = None;
+        let category = None;
+
+        Self::Announcement {
+            line,
+            group,
+            category,
+        }
     }
 }
