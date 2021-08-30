@@ -1,5 +1,7 @@
 {
-  "general": {},
+  "general": {
+    "gamelog_path": "./data/gamelog.txt"
+  },
   "filters": [
     {
       "group": "battle_minor",

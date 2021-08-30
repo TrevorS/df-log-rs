@@ -6,6 +6,11 @@ use regex::Regex;
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
+pub struct General {
+    gamelog_path: PathBuf,
+}
+
+#[derive(Deserialize, Debug)]
 pub struct Filter {
     group: String,
     category: String,
@@ -16,6 +21,7 @@ pub struct Filter {
 
 #[derive(Deserialize, Debug)]
 pub struct Settings {
+    general: General,
     filters: Vec<Filter>,
 }
 
@@ -38,6 +44,6 @@ impl Settings {
     }
 
     pub fn get_gamelog_path(&self) -> PathBuf {
-        PathBuf::from("./data/gamelog.txt")
+        self.general.gamelog_path.clone()
     }
 }
