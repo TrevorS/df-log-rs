@@ -1,22 +1,31 @@
+#!/usr/bin/env python
+
 import collections
 import re
 import json
+import sys
 
 
-def main():
+def main(filters_file, settings_file):
     regex = re.compile("\[(.+)\]\[(.*)\] (.+)")
 
-    with open("filters.txt", "r") as f:
+    with open(filters_file, "r") as f:
         filters = f.readlines()
         results = collections.defaultdict(list)
 
         for filter in filters:
+            # ignore blank lines or comments
             if len(filter.strip()) == 0 or filter.startswith("#"):
                 continue
 
             group, category, expression = regex.findall(filter)[0]
+
+            # filter out spam settings for now
+            if "spam" in (group, category):
+                continue
+
             expressions = results[(group, category)]
-            expressions.append(expression.strip().replace('"', "").replace('\!', "!"))
+            expressions.append(expression.strip().replace('"', "").replace("\!", "!"))
 
         formatted_filters = [
             {"group": group, "category": category, "expressions": expressions}
@@ -30,9 +39,13 @@ def main():
             "filters": formatted_filters,
         }
 
-        with open("generated_settings.json", "w") as s:
+        with open(settings_file, "w") as s:
             json.dump(settings, s, indent=4)
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 3:
+        print("example usage:")
+        print("gen_settings.py filters.txt settings.json")
+    else:
+        main(sys.argv[1], sys.argv[2])
