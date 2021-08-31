@@ -1,35 +1,752 @@
 {
-  "general": {
-    "gamelog_path": "./data/gamelog.txt"
-  },
-  "filters": [
-    {
-      "group": "battle_minor",
-      "category": "hitevents_miss",
-      "expressions": [
-        "The (.+), but the attack glances away!",
-        "(.+), but the attack is deflected by The (.+)'s (.+)!",
-        "(.+), but it is deflected by The (.+)'s (.+)!",
-        "The (.+) strikes at The (.+) but the shot is parried!",
-        "The (.+) strikes at The (.+) but the shot is ((deftly )|(easily )|(narrowly )|(just barely )|(effortlessly )|())parried by (.+)!",
-        "The (.+) strikes at The (.+) but the shot is ((deftly )|(easily )|(narrowly )|(just barely )|(effortlessly )|())deflected by (.+)!",
-        "The (.+) The (.+) but the shot is blocked(.+)",
-        "The flying (.+) misses (.+)!",
-        "(.+) blocks The flying (.+)!",
-        "The (.+) misses The (.+)!"
-      ]
+    "general": {
+        "gamelog_path": "./data/gamelog.txt"
     },
-    {
-      "group": "battle_minor",
-      "category": "status",
-      "expressions": [
-        "The (.+) (has been stunned|is knocked over|has been knocked unconscious|stands up|passes out|falls over|regains consciousness|is no longer stunned).+",
-        "The (.+) (charges at|collides with) The (.+)!",
-        "They tangle together and (.+)!",
-        "The (.+) bounces backward!",
-        "The (.+) collapses and falls to the ground from over-exertion\\.",
-        "The (.+) looks surprised by the ferocity of ((The (.+)'s)|(Your)) onslaught!"
-      ]
-    }
-  ]
+    "filters": [
+        {
+            "group": "battle_minor",
+            "category": "hitevents_miss",
+            "expressions": [
+                "The (.+), lightly tapping the target!",
+                "The (.+), but the attack glances away!",
+                "(.+), but the attack is deflected by The (.+)'s (.+)!",
+                "(.+), but it is deflected by The (.+)'s (.+)!",
+                "The (.+) strikes at The (.+) but the shot is parried!",
+                "The (.+) strikes at The (.+) but the shot is ((deftly )|(easily )|(narrowly )|(just barely )|(effortlessly )|())parried by (.+)!",
+                "The (.+) strikes at The (.+) but the shot is ((deftly )|(easily )|(narrowly )|(just barely )|(effortlessly )|())deflected by (.+)!",
+                "The (.+) The (.+) but the shot is blocked(.+)",
+                "The flying (.+) misses (.+)!",
+                "(.+) blocks The flying (.+)!",
+                "The (.+) misses The (.+)!"
+            ]
+        },
+        {
+            "group": "battle_minor",
+            "category": "status",
+            "expressions": [
+                "The (.+) (has been stunned|is knocked over|has been knocked unconscious|stands up|passes out|falls over|regains consciousness|is no longer stunned).+",
+                "The (.+) (charges at|collides with) The (.+)!",
+                "They tangle together and (.+)!",
+                "The (.+) bounces backward!",
+                "The (.+) collapses and falls to the ground from over-exertion\\.",
+                "The (.+) looks surprised by the ferocity of ((The (.+)'s)|(Your)) onslaught!"
+            ]
+        },
+        {
+            "group": "battle_minor",
+            "category": "block_dodge",
+            "expressions": [
+                "The (.+) (blocks|jumps away|jumps out|scrambles out of|scrambles away|rolls out of|rolls away|falls over).+",
+                "(((.+) jumps)|(You jump)) away from The flying (.+)!",
+                "(((.+) jumps)|(You jump)) away from the (.+)!",
+                "(.+) bats The ((spinning)|(flying)) (.+) out of the air!",
+                "(.+) scrambles away from The flying (.+)!",
+                "(.+) strikes at (.+) but the shot is blocked with (.+)!",
+                "(((.+) misses)|(You miss)) (.+)!",
+                "(.+) jumps away from The spinning (.+)!",
+                "(.+) blocks The spinning (.+)!",
+                "(.+) bats The spinning (.+) aside!",
+                "(.+) scrambles away from The spinning (.+)!",
+                "(.+) rolls away from The spinning (.+)!",
+                "The (.+) bats The (.+) aside.+!"
+            ]
+        },
+        {
+            "group": "battle",
+            "category": "hitevents",
+            "expressions": [
+                "The (.+), (bruising|chipping|shattering|fracturing|denting) (it|the).+",
+                "The (.+), jamming the (.+) through the (.+)'s (.+) and shattering the (.+)'s (.+)!",
+                "The (.+), jamming the (.+) through the (.+)'s (.+) and fracturing the (.+)'s (.+)!",
+                "The (.+), tearing apart the (.+)!",
+                "The (.+), tearing apart the (.+) and bruising the (.+)!",
+                "The (.+), tearing apart the (.+) and bruising the (.+) through the (.+)!",
+                "The (.+), tearing it apart through the (.+)!",
+                "The (.+), tearing the (.+)",
+                "The (.+), tearing the (.+) and bruising the (.+)!",
+                "The (.+), tearing the (.+) through the (.+)!",
+                "The (.+) and the severed part sails off in an arc!",
+                "The (.+) takes the full force of the impact(.+)",
+                "The flying (.+) strikes (.+)",
+                "The (.+) strikes The (.+)"
+            ]
+        },
+        {
+            "group": "battle",
+            "category": "status",
+            "expressions": [
+                "The (.+) (vomits|retches|looks sick|looks even more sick|trouble breathing).+",
+                "(.+) skids along the ground!",
+                "The (.+) skips across the water!",
+                "(.+) skids along the ground, (.+)!",
+                "(.+) skids along the ground and the (.+) splits in gore!",
+                "(.+) has been stunned!",
+                "(.+) has been stunned again!",
+                "(.+) is no longer stunned\\.",
+                "(.+) gives in to pain\\.",
+                "(.+) passes out\\.",
+                "(.+) looks sick!",
+                "(.+) looks even more sick!",
+                "(.+) vomits\\.",
+                "(.+) retches\\.",
+                "The vomit disappears into the water\\.",
+                "The vomit burns away in the lava\\.",
+                "The vomit splatters into the shallow puddle of water\\.",
+                "(.+) is having trouble breathing!",
+                "(.+) is having more trouble breathing!",
+                "(.+) has become enraged!",
+                "(.+) is no longer enraged\\.",
+                "(.+) has been knocked unconscious!",
+                "(.+) passes out from exhaustion\\.",
+                "(.+) regains consciousness\\.",
+                "(.+) is feeling sluggish!",
+                "(.+) looks numb!",
+                "(.+) is partially paralyzed!",
+                "(.+) is completely paralyzed!",
+                "(.+) has fully overcome the paralysis\\.",
+                "(.+) has been bitten by (.+)!",
+                "(.+) is injected into the (.+)'s (.+) blood!",
+                "(.+) cancels (.+): Paralyzed\\.",
+                "(.+) cancels (.+): Resting injury\\.",
+                "[tT]he (.+) rolls into a ball\\.",
+                "[tT]he (.+) unrolls\\."
+            ]
+        },
+        {
+            "group": "battle",
+            "category": "battle",
+            "expressions": [
+                "(.+) is propelled away by the force of the blow!",
+                "(.+) counterstrikes!",
+                "The (.+) manages to stop where The (.+) used to be\\.",
+                "The (.+) rushes by The (.+)!",
+                "The (.+) is knocked over(.+)",
+                "They tangle together and (.+)!",
+                "The (.+) leaps at The (.+)!",
+                "The (.+) slams into an obstacle!",
+                "The (.+) slams into an obstacle and falls over!",
+                "The (.+) slams into the (.+)!",
+                "(.+) pulls out and drops the (.+)\\.",
+                "(.+) lets the (.+) (.+) drop away as ((He)|(She)|(It)) attacks\\.",
+                "(.+) loses hold of the (.+)\\.",
+                "The (.+) grabs The (.+) by the (.+) with ((his)|(her)|(its)) (.+)!",
+                "The (.+) locks The (.+)'s (.+) with The (.+)'s (.+)!",
+                "The (.+) adjusts the grip of The (.+) on The (.+)\\.",
+                "The (.+) releases the grip of The (.+)'s (.+) from The (.+)'s (.+)\\.",
+                "The (.+) releases the grip of The (.+) on The (.+)\\.",
+                "The (.+) releases the joint lock of The (.+)'s (.+) on The (.+)'s (.+)\\.",
+                "The (.+) breaks the grip of The (.+) from The (.+)!",
+                "The (.+) breaks the grip of The (.+) on The (.+)\\.",
+                "The (.+) is unable to break the grip of The (.+)'s (.+) on The (.+)'s (.+)!",
+                "The (.+) places a chokehold on The (.+)'s (.+) with The (.+)'s (.+)!",
+                "The (.+) strangles The (.+)'s (.+)!",
+                "The (.+) throws The (.+) by the (.+) with The (.+)!",
+                "The (.+) struggles in vain against the grip of The (.+) on The (.+)\\.",
+                "The (.+) shakes The (.+) around by the (.+)!",
+                "The (.+) is ripped away and remains in The (.+)'s grip!",
+                "(.+) latches on firmly!",
+                "(.+) latches on firmly to (.+)!",
+                "(.+) bends (.+) and (.+) collapses!",
+                "The (.+) takes The (.+) down by the (.+) with The (.+)'s (.+)!",
+                "The (.+) skids along the ground through the (.+)!",
+                "(.+) cancels (.+): Too injured\\.",
+                "The (.+) attack is interrupted!"
+            ]
+        },
+        {
+            "group": "battle",
+            "category": "breath",
+            "expressions": [
+                "The (.+) breathes a cloud of (.+) ((frozen)|(boiling)) extract!",
+                "The (.+) breathes a (cloud|glob) of (.+)",
+                "The (.+) breathes fire!",
+                "The (.+) hurls a ball of fire!",
+                "The (.+) breathes a glob of forgotten beast frozen extract!",
+                "(.+) is caught in a (cloud|burst) of (.+) extract!",
+                "(.+) is caught in a cloud of (.+)!",
+                "(.+) blocks the breath\\.",
+                "(.+) blocks the fire\\.",
+                "(.+) shoots out thick strands of webbing!",
+                "(.+) is caught up in the web!",
+                "(.+) is partially free of the web\\.",
+                "(.+) is completely free of the web\\.",
+                "(.+) cancels (.+): Webbed\\."
+            ]
+        },
+        {
+            "group": "battle",
+            "category": "gore",
+            "expressions": [
+                "The (.+) gouges The (.+)'s (.+) with The (.+)'s (.+)!",
+                "A (.+) has been severed!",
+                "A (.+) has been torn!",
+                "An (.+) has been opened by the strike and a (.+) has been torn!",
+                "The (.+) has lodged firmly in the wound!",
+                "(.+) twists the embedded (.+) around in (.+)'s (.+)!",
+                "(.+) pulls on the embedded (.+)\\.",
+                "(.+) pulls out and releases the (.+)\\.",
+                "((An artery)|(A major artery)) has been opened by the ((strike)|(attack))(.*)!",
+                "An artery in the (.+) has been opened by the ((strike)|(attack))(.*)!",
+                "A major artery in the (.+) has been opened by the ((strike)|(attack))!",
+                "The guts pops out of the wound!",
+                "Many nerves have been severed(.*)!",
+                "A tendon has been strained!",
+                "A tendon in the (.+) has been bruised!",
+                "A ligament in (.+) has been (.+)!",
+                "The (.+) is smashed into the (.+), an unrecognizable mass!",
+                "(.+) in the (.+) with (.+) and the injured part is cloven asunder!",
+                "(.+) blood is sucked out of the wound!"
+            ]
+        },
+        {
+            "group": "battle",
+            "category": "strikes",
+            "expressions": [
+                "The (.+) (leaps at|punches|catches|snatches at|stabs|grabs|hacks|pushes|misses|slashes|shakes|blocks|gores|strangles|strikes|scratches|kicks|attacks|lashes|slaps|bashes|bites|strikes at|punches|releases|throws|takes|locks|bends|places a chokehold on|gouges) The (.+)"
+            ]
+        },
+        {
+            "group": "battle_trance",
+            "category": "trance",
+            "expressions": [
+                "(.+) has entered a martial trance!",
+                "(.+) has left the martial trance\\."
+            ]
+        },
+        {
+            "group": "JobSuspension",
+            "category": "JobSuspension",
+            "expressions": [
+                "The dwarves suspended a linkage from (.+) Lever\\.",
+                "The dwarves suspended a linkage from Pressure Plate\\.",
+                "The (.+) suspended the construction of (.+)\\.",
+                "(.+) cancels Construct Building: Item blocking site\\.",
+                "(.+) cancels Construct Building: Cannot reach site\\.",
+                "(.+) cancels Construct Building: Building site submerged\\.",
+                "(.+) cancels Construct Building: Creature occupying site\\.",
+                "(.+) cancels Link a Building to Trigger: Cannot reach site\\.",
+                "The (.+) were unable to complete the (.+)\\."
+            ]
+        },
+        {
+            "group": "Production",
+            "category": "EquipmentMismatch",
+            "expressions": [
+                "(.+) cancels Pickup Equipment: Equipment mismatch\\."
+            ]
+        },
+        {
+            "group": "Production",
+            "category": "foodAndDrinkCancelations",
+            "expressions": [
+                "(.+) cancels Drink: Water source vanished\\.",
+                "(.+) cancels Drink: Well dry\\.",
+                "(.+) cancels Fill Waterskin Well dry\\.",
+                "(.+) cancels Fill Waterskin: Water source vanished\\.",
+                "(.+) cancels Clean Self Well dry\\.",
+                "(.+) cancels Drink: Water source contaminated\\.",
+                "(.+) cancels Give Water: No water source\\.",
+                "(.+) cancels Apply Cast: No water source\\.",
+                "(.+) cancels Clean Patient: No water source\\.",
+                "(.+) cancels Place In Traction: No available traction bench\\.",
+                "(.+) cancels Fill Pond: No water source\\.",
+                "(.+) cancels Give Water: Need empty bucket\\.",
+                "(.+) cancels Give Water: Animal inaccessible\\.",
+                "(.+) cancels Clean Self: Water source vanished\\.",
+                "(.+) cancels Clean Self: Well dry\\.",
+                "(.+) cancels Give Food: No food available\\.",
+                "(.+) cancels (.+): Hunting vermin for food\\.",
+                "(.+) cancels Eat: Item inaccessible\\.",
+                "(.+) cancels (.+): Getting food\\.",
+                "(.+) cancels (.+): Getting something to drink\\.",
+                "(.+) cancels (.+): Getting water\\.",
+                "(.+) cancels Tame (.+): No food available\\."
+            ]
+        },
+        {
+            "group": "Production",
+            "category": "creatureInterruption",
+            "expressions": [
+                "(.+) cancels (.+): Interrupted by (.+)\\."
+            ]
+        },
+        {
+            "group": "Production",
+            "category": "production",
+            "expressions": [
+                "Jobs removed from unpowered Magma Forge\\.",
+                "Jobs removed from unpowered Magma Smelter\\.",
+                "(.+) has altered the prices of goods\\.",
+                "(.+) has been completed\\."
+            ]
+        },
+        {
+            "group": "Production",
+            "category": "farmCancelations",
+            "expressions": [
+                "(.+), (.+) cancels Plant Seeds: (.+)"
+            ]
+        },
+        {
+            "group": "Production",
+            "category": "misc",
+            "expressions": [
+                "(.+) cancels (.+): (.+)"
+            ]
+        },
+        {
+            "group": "Production",
+            "category": "cancelations",
+            "expressions": [
+                "The (.+) were unable to complete the (.+)\\."
+            ]
+        },
+        {
+            "group": "misc",
+            "category": "spam",
+            "expressions": [
+                "x\\d+",
+                "\\s+"
+            ]
+        },
+        {
+            "group": "masterpiece",
+            "category": "",
+            "expressions": [
+                "(.+) has created a masterpiece!",
+                "(.+) has cooked a masterpiece!",
+                "(.+) has created a masterpiece (.+)!",
+                "(.+) has engraved a masterpiece!",
+                "(.+) has constructed a masterpiece!",
+                "(.+) has improved a (.+) masterfully!",
+                "A masterwork of (.+) has been lost!"
+            ]
+        },
+        {
+            "group": "beekeeping",
+            "category": "beekeeping",
+            "expressions": [
+                "(.+) has been stung by a (.+)!",
+                "(.+) have been stung by a (.+)!"
+            ]
+        },
+        {
+            "group": "deaths",
+            "category": "directDeaths",
+            "expressions": [
+                "(.+) has drowned\\.",
+                "(.+) has died ((of)|(from)) thirst\\.",
+                "(.+) has starved to death\\.",
+                "(.+) has been struck down\\.",
+                "(.+) has been crushed by a drawbridge\\.",
+                "(.+) has died after colliding with an obstacle\\.",
+                "(.+) slams into an obstacle and blows apart!",
+                "(.+) has bled to death\\.",
+                "(.+) has died of old age\\.",
+                "(.+) has suffocated\\.",
+                "(.+) has been encased in ice\\.",
+                "(.+) has been encased in cooling lava\\.",
+                "(.+) has been shot and killed\\.",
+                "(.+) has succumbed to infection\\.",
+                "(.+) has been impaled on spikes\\.",
+                "(.+) has been killed by a flying object\\.",
+                "(.+) has been killed by a trap\\.",
+                "(.+) has been murdered by (.+)!",
+                "(.+) has been scared to death by the (.+)!",
+                "(.+) has collapsed\\."
+            ]
+        },
+        {
+            "group": "deaths",
+            "category": "foundDeaths",
+            "expressions": [
+                "(.+) has been found dead\\.",
+                "(.+) has been found dead, (.+)",
+                "(.+) has been found, starved to death\\."
+            ]
+        },
+        {
+            "group": "deaths",
+            "category": "slaughtering",
+            "expressions": [
+                "(.+) has been slaughtered\\."
+            ]
+        },
+        {
+            "group": "dfhack",
+            "category": "elected",
+            "expressions": [
+                "(.+), (.+) has been re-elected\\.",
+                "(.+) has been elected mayor\\.",
+                "(.+) became mayor\\.",
+                "Mayor position is now vacant\\.",
+                "Expedition leader was replaced by mayor\\.",
+                "(.+) became expedition leader\\.",
+                "Expedition leader position is now vacant\\."
+            ]
+        },
+        {
+            "group": "dfhack",
+            "category": "misc",
+            "expressions": [
+                "Siege was broken\\.",
+                "(.+) is now rusty (.+)\\.",
+                "(.+) is now very rusty (.+)\\.",
+                "(.+) is no longer rusty (.+)\\.",
+                "(.+) is no longer very rusty (.+)\\.",
+                "(.+) has became Proficient (.+)\\.",
+                "(.+) has became Accomplished (.+)\\.",
+                "(.+) has became Legendary (.+)\\.",
+                "(.+): I have mastered (.+)\\.  That was very satisfying!"
+            ]
+        },
+        {
+            "group": "dfhack",
+            "category": "workshopCompletion",
+            "expressions": [
+                "(.+) was built\\."
+            ]
+        },
+        {
+            "group": "dfhack",
+            "category": "automation",
+            "expressions": [
+                "Marked \\d+ items (to|for) (.+)"
+            ]
+        },
+        {
+            "group": "fishing",
+            "category": "",
+            "expressions": [
+                "There is nothing to catch in the (.+)\\."
+            ]
+        },
+        {
+            "group": "interactions",
+            "category": "necromancy",
+            "expressions": [
+                "(.+) gestures!",
+                "You gesture!",
+                "(.+) shudders and begins to move!"
+            ]
+        },
+        {
+            "group": "interactions",
+            "category": "werebeast",
+            "expressions": [
+                "(.+) has transformed into a were(.+)!",
+                "(.+) has transformed into a (.+)!"
+            ]
+        },
+        {
+            "group": "intruders",
+            "category": "beast",
+            "expressions": [
+                "The Forgotten Beast (.+) has come!  ((A)|(An)) (.+)",
+                "The (.+) Titan (.+) has come!  ((A)|(An)) (.+)",
+                "The (.+) has come!  ((A)|(An)) (.+)"
+            ]
+        },
+        {
+            "group": "intruders",
+            "category": "intruders",
+            "expressions": [
+                "The dead walk\\.  Hide while you still can!",
+                "A vile force of darkness has arrived!",
+                "An ambush!  Curse them!",
+                "An ambush!  Drive them out!",
+                "Ambush!",
+                "An ambush!  Curse them!",
+                "A kidnapper has made off with (.+)!",
+                "Snatcher!( ?) Protect the children!",
+                "A (.+)!  Drive it away!",
+                "Thief!  Protect the hoard from skulking filth!",
+                "(.+) has stolen (.+)!",
+                "(.+) batters (.+)!",
+                "(.+) destroyed by (.+)\\.",
+                "(.+) toppled by (.+)\\."
+            ]
+        },
+        {
+            "group": "intruders",
+            "category": "ghost",
+            "expressions": [
+                "(.+) has risen and is haunting the fortress!",
+                "(.+) can be heard howling throughout the fortress!",
+                "(.+) has been put to rest\\.",
+                "(.+) has grown to become a Ghostly (.+) Child\\.",
+                "(.+) has grown to become a Ghost\\.",
+                "(.+) is following (.+)!",
+                "a (.+) has been misplaced.  No doubt (.+), Ghostly (.+) is to blame!"
+            ]
+        },
+        {
+            "group": "mandates",
+            "category": "mandates",
+            "expressions": [
+                "(.+) has mandated the construction of certain goods\\.",
+                "(.+) has imposed a ban on certain exports\\.",
+                "(.+) has ended a mandate\\.",
+                "(.+)'s mandate has ended\\.",
+                "(.+)'s mandates have ended\\.",
+                "(.+) has a new demand\\.",
+                "(.+) has forgotten a demand\\."
+            ]
+        },
+        {
+            "group": "mining",
+            "category": "enviromentalHazard",
+            "expressions": [
+                "The (.+) is caught in a pool of (lava|magma)!",
+                "The (.+) is caught in a cloud of steam!",
+                "The (.+) is caught in a cloud of boiling magma!",
+                "The (.+) is caught in a lava mist!",
+                "The (.+) is caught in a burst of (.+)!"
+            ]
+        },
+        {
+            "group": "mining",
+            "category": "mining",
+            "expressions": [
+                "You have struck (.+)!",
+                "Raw adamantine!  Praise the miners!",
+                "You have discovered an expansive cavern deep underground\\.",
+                "You have discovered an eerie cavern\\.  The air above the dark stone floor is alive with vortices of purple light and dark, boiling clouds\\.  Seemingly bottomless glowing pits mark the surface\\.",
+                "Horrifying screams come from the darkness below!",
+                "You have discovered a (.+)",
+                "Digging designation cancelled: damp stone located\\.",
+                "Digging designation cancelled: warm stone located\\.",
+                "A section of the cavern has collapsed!",
+                "Something has collapsed on the surface!"
+            ]
+        },
+        {
+            "group": "moods",
+            "category": "moods",
+            "expressions": [
+                "(.+) cancels (.+): Taken by mood\\.",
+                "(.+) is taken by a fey mood!",
+                "(.+) withdraws from society\\.\\.\\.",
+                "(.+) begins to stalk and brood\\.\\.\\.",
+                "(.+) has been possessed!",
+                "(.+) has been possessed!",
+                "(.+) looses a roaring laughter, fell and terrible!",
+                "(.+) looses a roaring laughter, fell and terrible!",
+                "(.+) has begun a mysterious construction!",
+                "(.+) cancels (.+): Went insane\\.",
+                "(.+) has gone berserk!",
+                "(.+) has gone stark raving mad!",
+                "(.+) is stricken by melancholy!",
+                "(.+) has claimed a (.+)\\.",
+                "(.+) has created (.+), a (.+)!"
+            ]
+        },
+        {
+            "group": "moods",
+            "category": "depression",
+            "expressions": [
+                "(.+), (.+) is stumbling around obliviously!",
+                "(.+), (.+) has slipped into depression\\.\\.\\."
+            ]
+        },
+        {
+            "group": "moods",
+            "category": "tantrum",
+            "expressions": [
+                "(.+) is throwing a tantrum, possessed by (.+), Ghostly (.+)!",
+                "(.+) is throwing a tantrum!",
+                "(.+) has calmed down\\.",
+                "(.+) cancels (.+): Throwing tantrum\\."
+            ]
+        },
+        {
+            "group": "named_item",
+            "category": "",
+            "expressions": [
+                "(.+) has grown attached to a (.+)!",
+                "(.+) has bestowed( ?) the name (.+) upon a (.+)!"
+            ]
+        },
+        {
+            "group": "animals",
+            "category": "training",
+            "expressions": [
+                "(.+) has reverted to a wild state!",
+                "(.+) has forgotten ((her)|(his)) training!",
+                "The (.+) of The (.+) now know a few facts about (.+) training\\.",
+                "The (.+) of The (.+) have attained a general familiarity with (.+) training methods\\.",
+                "The (.+) of The (.+) are now quite knowledgeable (.+) trainers\\."
+            ]
+        },
+        {
+            "group": "animals",
+            "category": "vermin",
+            "expressions": [
+                "(.+) has gnawed its way out of confinement!",
+                "(.+) has gnawed its way out of confinement!"
+            ]
+        },
+        {
+            "group": "animals",
+            "category": "grown",
+            "expressions": [
+                "An animal has grown to become a (.+)"
+            ]
+        },
+        {
+            "group": "animals",
+            "category": "birth",
+            "expressions": [
+                "(.+) has given birth to (.+)",
+                "(.+) have hatched\\."
+            ]
+        },
+        {
+            "group": "animals",
+            "category": "drink",
+            "expressions": [
+                "(.+) has guzzled some (.+)!"
+            ]
+        },
+        {
+            "group": "animals",
+            "category": "catAdoption",
+            "expressions": [
+                "(.+) has adopted (.+)\\."
+            ]
+        },
+        {
+            "group": "social",
+            "category": "missing",
+            "expressions": [
+                "(.+) has been missing for a week\\."
+            ]
+        },
+        {
+            "group": "social",
+            "category": "social",
+            "expressions": [
+                "The (.+) and the (.+) have married\\.  Congratulations!",
+                "They have organized a wedding reception at (.+)\\.",
+                "They have decided to forego any formal celebrations\\.",
+                "(.+) has organized a party at (.+)\\.",
+                "(.+) has given birth to a boy\\.",
+                "(.+) has given birth to a girl\\.",
+                "(.+) has given birth to ((twins)|(triplets))\\.",
+                "(.+) cancels (.+): Seeking Infant\\.",
+                "(.+) cancels Seek Infant: Infant inaccessible\\.",
+                "(.+) has grown to become a ((Dwarven )?)Child\\.",
+                "(.+) has grown to become a (.+)\\.",
+                "(.+) is more experienced\\.",
+                "(.+) has become a expedition leader\\.",
+                "(.+) has become a militia commander\\.",
+                "(.+) and the surrounding lands have been made a barony\\.",
+                "(.+) and the surrounding lands have been made a county\\.",
+                "(.+) and the surrounding lands have been made a duchy\\.",
+                "(.+), being the rightful heir, has inherited the position of ((king)|(queen)) of The (.+)\\."
+            ]
+        },
+        {
+            "group": "profession",
+            "category": "professionChange",
+            "expressions": [
+                "(.+) has become a (.+)\\."
+            ]
+        },
+        {
+            "group": "migrants",
+            "category": "migrants",
+            "expressions": [
+                "The fortress attracted no migrants this season\\.",
+                "No one even considered making the journey to such a cursed death-trap this season\\.",
+                "Some migrants have arrived\\.",
+                "Some migrants have arrived, despite the danger\\.",
+                "Some migrants have decided to brave this terrifying place, knowing it may be their tomb\\."
+            ]
+        },
+        {
+            "group": "seasons",
+            "category": "seasons",
+            "expressions": [
+                "(Spring has arrived!)|(Spring has arrived on the calendar\\.)",
+                "(It is now summer\\.)|(Summer has arrived on the calendar\\.)",
+                "(Autumn has come\\.)|(Autumn has arrived on the calendar\\.)",
+                "(Winter is upon you\\.)|(Winter has arrived on the calendar\\.)",
+                "The wet season has arrived!",
+                "The dry season has come\\.",
+                "Nothing has arrived on the calendar."
+            ]
+        },
+        {
+            "group": "weather",
+            "category": "weather",
+            "expressions": [
+                "It has started raining\\.",
+                "It is raining (.+)\\.",
+                "It is raining (.+)!",
+                "A cloud of (.+) has drifted nearby!",
+                "A snow storm has come\\.",
+                "The weather has cleared\\."
+            ]
+        },
+        {
+            "group": "trading",
+            "category": "trading",
+            "expressions": [
+                "A caravan from (.+) has arrived\\.",
+                "A (.+) caravan from (.+) has arrived\\.",
+                "The (([oO]utpost)|([vV]illage)|([mM]etropolis)) [lL]iaison (.+) from (.+) has arrived\\.",
+                "A (.+) diplomat from (.+) has arrived\\.",
+                "The elf (.+) from (.+) has arrived\\.",
+                "The human (.+) from (.+) has arrived\\.",
+                "The (.+) from (.+) has arrived\\.",
+                "Merchants have arrived and are unloading their goods\\.",
+                "The merchants from (.+) will be leaving soon\\.",
+                "The merchants from (.+) have embarked on their journey\\.",
+                "Their wagons have bypassed your inaccessible site\\.",
+                "The merchants need a trade depot to unload their goods\\.",
+                "(.+) cancels Trade at Depot: ((Not responsible for trade)|(Not broker))\\.",
+                "No outpost liaison\\?  How curious\\.\\.\\."
+            ]
+        },
+        {
+            "group": "system",
+            "category": "seed",
+            "expressions": [
+                "Seed: (.+)",
+                "History Seed: (.+)",
+                "Name Seed: (.+)",
+                "Creature Seed: (.+)"
+            ]
+        },
+        {
+            "group": "system",
+            "category": "system",
+            "expressions": [
+                "\\*\\*\\* STARTING NEW GAME \\*\\*\\*",
+                "Generating world using parameter set (.+)",
+                "\\*\\* Starting New Outpost \\*\\*",
+                "\\*\\* Starting New Outpost \\*\\*",
+                "\\*\\* Starting Reclaim \\*\\*",
+                "\\*\\* Loading Fortress \\*\\*",
+                "\\*\\* Starting New Arena \\*\\*",
+                "Loaded (.+) at coordinates (.+)"
+            ]
+        },
+        {
+            "group": "system",
+            "category": "load",
+            "expressions": [
+                "Loaded the fortress (.+)"
+            ]
+        },
+        {
+            "group": "emotion",
+            "category": "emotion",
+            "expressions": [
+                "(.+), (.+): (.+)",
+                "(.+): (.+)"
+            ]
+        }
+    ]
 }
