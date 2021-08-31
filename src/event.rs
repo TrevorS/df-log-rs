@@ -1,5 +1,7 @@
 use std::sync::mpsc;
 
+use crate::settings::Settings;
+
 pub type EventSender = mpsc::Sender<Event>;
 pub type EventReceiver = mpsc::Receiver<Event>;
 
@@ -12,17 +14,33 @@ pub enum Event {
     },
 }
 
-impl Event {
-    pub fn new(line: &str) -> Self {
+pub struct EventFactory {
+    settings: Settings,
+}
+
+impl EventFactory {
+    pub fn new(settings: Settings) -> Self {
+        Self { settings }
+    }
+
+    pub fn create(&self, line: &str) -> Event {
         let line = String::from(line);
+        let filters = self.settings.get_filters();
 
-        let group = None;
-        let category = None;
+        for filter in filters {
+            if filter.matches(&line) {
+                return Event::Announcement {
+                    line,
+                    group: Some(filter.group.to_owned()),
+                    category: Some(filter.category.to_owned()),
+                };
+            }
+        }
 
-        Self::Announcement {
+        Event::Announcement {
             line,
-            group,
-            category,
+            group: None,
+            category: None,
         }
     }
 }

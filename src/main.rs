@@ -16,10 +16,7 @@ const SETTINGS_PATH: &str = "./settings.json";
 
 fn main() {
     let settings = Settings::new(PathBuf::from(SETTINGS_PATH)).unwrap();
-    dbg!(&settings);
-
-    let filename = settings.get_gamelog_path();
-    let mut gamelog = Gamelog::new(filename);
+    let mut gamelog = Gamelog::new(settings.clone());
 
     let rx = gamelog.connect().expect("Failed to read gamelog.txt!");
 

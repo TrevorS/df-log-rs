@@ -5,21 +5,7 @@ use std::path::PathBuf;
 use regex::Regex;
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug)]
-pub struct General {
-    gamelog_path: PathBuf,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Filter {
-    group: String,
-    category: String,
-    expressions: Vec<String>,
-    #[serde(skip)]
-    compiled: Vec<Regex>,
-}
-
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Settings {
     general: General,
     filters: Vec<Filter>,
@@ -45,5 +31,29 @@ impl Settings {
 
     pub fn get_gamelog_path(&self) -> PathBuf {
         self.general.gamelog_path.clone()
+    }
+
+    pub fn get_filters(&self) -> &Vec<Filter> {
+        &self.filters
+    }
+}
+
+#[derive(Deserialize, Debug, Clone)]
+pub struct General {
+    gamelog_path: PathBuf,
+}
+
+#[derive(Deserialize, Debug, Clone)]
+pub struct Filter {
+    pub group: String,
+    pub category: String,
+    expressions: Vec<String>,
+    #[serde(skip)]
+    compiled: Vec<Regex>,
+}
+
+impl Filter {
+    pub fn matches(&self, line: &str) -> bool {
+        self.compiled.iter().any(|r| r.is_match(line))
     }
 }

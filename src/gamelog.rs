@@ -1,27 +1,28 @@
 use std::fs::File;
 use std::io::{self, BufReader, Read, Seek, SeekFrom};
-use std::path::PathBuf;
 use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
 
 use notify::{DebouncedEvent, RecommendedWatcher, RecursiveMode, Watcher};
 
-use crate::event::{Event, EventReceiver, EventSender};
+use crate::event::{EventFactory, EventReceiver, EventSender};
+use crate::settings::Settings;
 
 pub struct Gamelog {
-    path: PathBuf,
+    settings: Settings,
 }
 
 impl Gamelog {
-    pub fn new(path: PathBuf) -> Self {
-        Self { path }
+    pub fn new(settings: Settings) -> Self {
+        Self { settings }
     }
 
     pub fn connect(&mut self) -> io::Result<EventReceiver> {
         let (es, er): (EventSender, EventReceiver) = mpsc::channel();
-        let path = self.path.clone();
+        let event_factory = EventFactory::new(self.settings.clone());
 
+        let path = self.settings.get_gamelog_path();
         let file = File::open(&path)?;
 
         thread::spawn(move || {
@@ -46,7 +47,9 @@ impl Gamelog {
                                 let line = line.trim();
 
                                 if !line.is_empty() {
-                                    es.send(Event::new(&line)).unwrap()
+                                    let event = event_factory.create(line);
+                                    // TODO: I think I can handle this better by creating my own errors.
+                                    es.send(event).unwrap()
                                 }
                             }
                         }
