@@ -18,7 +18,8 @@
                 "The flying (.+) misses (.+)!",
                 "(.+) blocks The flying (.+)!",
                 "The (.+) misses The (.+)!"
-            ]
+            ],
+            "color": "#c0c0c0"
         },
         {
             "group": "battle_minor",
@@ -30,7 +31,8 @@
                 "The (.+) bounces backward!",
                 "The (.+) collapses and falls to the ground from over-exertion\\.",
                 "The (.+) looks surprised by the ferocity of ((The (.+)'s)|(Your)) onslaught!"
-            ]
+            ],
+            "color": "#c0c0c0"
         },
         {
             "group": "battle_minor",
@@ -49,7 +51,8 @@
                 "(.+) scrambles away from The spinning (.+)!",
                 "(.+) rolls away from The spinning (.+)!",
                 "The (.+) bats The (.+) aside.+!"
-            ]
+            ],
+            "color": "#c0c0c0"
         },
         {
             "group": "battle",
@@ -69,7 +72,8 @@
                 "The (.+) takes the full force of the impact(.+)",
                 "The flying (.+) strikes (.+)",
                 "The (.+) strikes The (.+)"
-            ]
+            ],
+            "color": "#ff0000"
         },
         {
             "group": "battle",
@@ -110,7 +114,8 @@
                 "(.+) cancels (.+): Resting injury\\.",
                 "[tT]he (.+) rolls into a ball\\.",
                 "[tT]he (.+) unrolls\\."
-            ]
+            ],
+            "color": "#ff0000"
         },
         {
             "group": "battle",
@@ -151,7 +156,8 @@
                 "The (.+) skids along the ground through the (.+)!",
                 "(.+) cancels (.+): Too injured\\.",
                 "The (.+) attack is interrupted!"
-            ]
+            ],
+            "color": "#ff0000"
         },
         {
             "group": "battle",
@@ -171,7 +177,8 @@
                 "(.+) is partially free of the web\\.",
                 "(.+) is completely free of the web\\.",
                 "(.+) cancels (.+): Webbed\\."
-            ]
+            ],
+            "color": "#ff0000"
         },
         {
             "group": "battle",
@@ -196,14 +203,16 @@
                 "The (.+) is smashed into the (.+), an unrecognizable mass!",
                 "(.+) in the (.+) with (.+) and the injured part is cloven asunder!",
                 "(.+) blood is sucked out of the wound!"
-            ]
+            ],
+            "color": "#ff0000"
         },
         {
             "group": "battle",
             "category": "strikes",
             "expressions": [
                 "The (.+) (leaps at|punches|catches|snatches at|stabs|grabs|hacks|pushes|misses|slashes|shakes|blocks|gores|strangles|strikes|scratches|kicks|attacks|lashes|slaps|bashes|bites|strikes at|punches|releases|throws|takes|locks|bends|places a chokehold on|gouges) The (.+)"
-            ]
+            ],
+            "color": "#ff0000"
         },
         {
             "group": "battle_trance",
@@ -211,7 +220,8 @@
             "expressions": [
                 "(.+) has entered a martial trance!",
                 "(.+) has left the martial trance\\."
-            ]
+            ],
+            "color": "#ff00ff"
         },
         {
             "group": "JobSuspension",
@@ -226,14 +236,16 @@
                 "(.+) cancels Construct Building: Creature occupying site\\.",
                 "(.+) cancels Link a Building to Trigger: Cannot reach site\\.",
                 "The (.+) were unable to complete the (.+)\\."
-            ]
+            ],
+            "color": "#c60000"
         },
         {
             "group": "Production",
             "category": "EquipmentMismatch",
             "expressions": [
                 "(.+) cancels Pickup Equipment: Equipment mismatch\\."
-            ]
+            ],
+            "color": "#930000"
         },
         {
             "group": "Production",
@@ -261,14 +273,16 @@
                 "(.+) cancels (.+): Getting something to drink\\.",
                 "(.+) cancels (.+): Getting water\\.",
                 "(.+) cancels Tame (.+): No food available\\."
-            ]
+            ],
+            "color": "#930000"
         },
         {
             "group": "Production",
             "category": "creatureInterruption",
             "expressions": [
                 "(.+) cancels (.+): Interrupted by (.+)\\."
-            ]
+            ],
+            "color": "#930000"
         },
         {
             "group": "Production",
@@ -278,36 +292,32 @@
                 "Jobs removed from unpowered Magma Smelter\\.",
                 "(.+) has altered the prices of goods\\.",
                 "(.+) has been completed\\."
-            ]
+            ],
+            "color": "#930000"
         },
         {
             "group": "Production",
             "category": "farmCancelations",
             "expressions": [
                 "(.+), (.+) cancels Plant Seeds: (.+)"
-            ]
+            ],
+            "color": "#930000"
         },
         {
             "group": "Production",
             "category": "misc",
             "expressions": [
                 "(.+) cancels (.+): (.+)"
-            ]
+            ],
+            "color": "#930000"
         },
         {
             "group": "Production",
             "category": "cancelations",
             "expressions": [
                 "The (.+) were unable to complete the (.+)\\."
-            ]
-        },
-        {
-            "group": "misc",
-            "category": "spam",
-            "expressions": [
-                "x\\d+",
-                "\\s+"
-            ]
+            ],
+            "color": "#930000"
         },
         {
             "group": "masterpiece",
@@ -320,7 +330,8 @@
                 "(.+) has constructed a masterpiece!",
                 "(.+) has improved a (.+) masterfully!",
                 "A masterwork of (.+) has been lost!"
-            ]
+            ],
+            "color": null
         },
         {
             "group": "beekeeping",
@@ -328,7 +339,8 @@
             "expressions": [
                 "(.+) has been stung by a (.+)!",
                 "(.+) have been stung by a (.+)!"
-            ]
+            ],
+            "color": "#ffff80"
         },
         {
             "group": "deaths",
@@ -354,7 +366,8 @@
                 "(.+) has been murdered by (.+)!",
                 "(.+) has been scared to death by the (.+)!",
                 "(.+) has collapsed\\."
-            ]
+            ],
+            "color": "#ffff00"
         },
         {
             "group": "deaths",
@@ -363,14 +376,16 @@
                 "(.+) has been found dead\\.",
                 "(.+) has been found dead, (.+)",
                 "(.+) has been found, starved to death\\."
-            ]
+            ],
+            "color": "#ffff00"
         },
         {
             "group": "deaths",
             "category": "slaughtering",
             "expressions": [
                 "(.+) has been slaughtered\\."
-            ]
+            ],
+            "color": "#ffff00"
         },
         {
             "group": "dfhack",
@@ -383,7 +398,8 @@
                 "Expedition leader was replaced by mayor\\.",
                 "(.+) became expedition leader\\.",
                 "Expedition leader position is now vacant\\."
-            ]
+            ],
+            "color": "#ffffff"
         },
         {
             "group": "dfhack",
@@ -398,28 +414,32 @@
                 "(.+) has became Accomplished (.+)\\.",
                 "(.+) has became Legendary (.+)\\.",
                 "(.+): I have mastered (.+)\\.  That was very satisfying!"
-            ]
+            ],
+            "color": "#ffffff"
         },
         {
             "group": "dfhack",
             "category": "workshopCompletion",
             "expressions": [
                 "(.+) was built\\."
-            ]
+            ],
+            "color": "#ffffff"
         },
         {
             "group": "dfhack",
             "category": "automation",
             "expressions": [
                 "Marked \\d+ items (to|for) (.+)"
-            ]
+            ],
+            "color": "#ffffff"
         },
         {
             "group": "fishing",
             "category": "",
             "expressions": [
                 "There is nothing to catch in the (.+)\\."
-            ]
+            ],
+            "color": null
         },
         {
             "group": "interactions",
@@ -428,7 +448,8 @@
                 "(.+) gestures!",
                 "You gesture!",
                 "(.+) shudders and begins to move!"
-            ]
+            ],
+            "color": "#ff0000"
         },
         {
             "group": "interactions",
@@ -436,7 +457,8 @@
             "expressions": [
                 "(.+) has transformed into a were(.+)!",
                 "(.+) has transformed into a (.+)!"
-            ]
+            ],
+            "color": "#ff0000"
         },
         {
             "group": "intruders",
@@ -445,7 +467,8 @@
                 "The Forgotten Beast (.+) has come!  ((A)|(An)) (.+)",
                 "The (.+) Titan (.+) has come!  ((A)|(An)) (.+)",
                 "The (.+) has come!  ((A)|(An)) (.+)"
-            ]
+            ],
+            "color": "#ff0000"
         },
         {
             "group": "intruders",
@@ -465,7 +488,8 @@
                 "(.+) batters (.+)!",
                 "(.+) destroyed by (.+)\\.",
                 "(.+) toppled by (.+)\\."
-            ]
+            ],
+            "color": "#ff0000"
         },
         {
             "group": "intruders",
@@ -478,7 +502,8 @@
                 "(.+) has grown to become a Ghost\\.",
                 "(.+) is following (.+)!",
                 "a (.+) has been misplaced.  No doubt (.+), Ghostly (.+) is to blame!"
-            ]
+            ],
+            "color": "#ff0000"
         },
         {
             "group": "mandates",
@@ -491,7 +516,8 @@
                 "(.+)'s mandates have ended\\.",
                 "(.+) has a new demand\\.",
                 "(.+) has forgotten a demand\\."
-            ]
+            ],
+            "color": "#ffffff"
         },
         {
             "group": "mining",
@@ -502,7 +528,8 @@
                 "The (.+) is caught in a cloud of boiling magma!",
                 "The (.+) is caught in a lava mist!",
                 "The (.+) is caught in a burst of (.+)!"
-            ]
+            ],
+            "color": "#80ffff"
         },
         {
             "group": "mining",
@@ -518,7 +545,8 @@
                 "Digging designation cancelled: warm stone located\\.",
                 "A section of the cavern has collapsed!",
                 "Something has collapsed on the surface!"
-            ]
+            ],
+            "color": "#80ffff"
         },
         {
             "group": "moods",
@@ -539,7 +567,8 @@
                 "(.+) is stricken by melancholy!",
                 "(.+) has claimed a (.+)\\.",
                 "(.+) has created (.+), a (.+)!"
-            ]
+            ],
+            "color": "#ff00ff"
         },
         {
             "group": "moods",
@@ -547,7 +576,8 @@
             "expressions": [
                 "(.+), (.+) is stumbling around obliviously!",
                 "(.+), (.+) has slipped into depression\\.\\.\\."
-            ]
+            ],
+            "color": "#ff00ff"
         },
         {
             "group": "moods",
@@ -557,7 +587,8 @@
                 "(.+) is throwing a tantrum!",
                 "(.+) has calmed down\\.",
                 "(.+) cancels (.+): Throwing tantrum\\."
-            ]
+            ],
+            "color": "#ff00ff"
         },
         {
             "group": "named_item",
@@ -565,7 +596,8 @@
             "expressions": [
                 "(.+) has grown attached to a (.+)!",
                 "(.+) has bestowed( ?) the name (.+) upon a (.+)!"
-            ]
+            ],
+            "color": null
         },
         {
             "group": "animals",
@@ -576,7 +608,8 @@
                 "The (.+) of The (.+) now know a few facts about (.+) training\\.",
                 "The (.+) of The (.+) have attained a general familiarity with (.+) training methods\\.",
                 "The (.+) of The (.+) are now quite knowledgeable (.+) trainers\\."
-            ]
+            ],
+            "color": "#00ff40"
         },
         {
             "group": "animals",
@@ -584,14 +617,16 @@
             "expressions": [
                 "(.+) has gnawed its way out of confinement!",
                 "(.+) has gnawed its way out of confinement!"
-            ]
+            ],
+            "color": "#00ff40"
         },
         {
             "group": "animals",
             "category": "grown",
             "expressions": [
                 "An animal has grown to become a (.+)"
-            ]
+            ],
+            "color": "#00ff40"
         },
         {
             "group": "animals",
@@ -599,28 +634,32 @@
             "expressions": [
                 "(.+) has given birth to (.+)",
                 "(.+) have hatched\\."
-            ]
+            ],
+            "color": "#00ff40"
         },
         {
             "group": "animals",
             "category": "drink",
             "expressions": [
                 "(.+) has guzzled some (.+)!"
-            ]
+            ],
+            "color": "#00ff40"
         },
         {
             "group": "animals",
             "category": "catAdoption",
             "expressions": [
                 "(.+) has adopted (.+)\\."
-            ]
+            ],
+            "color": "#00ff40"
         },
         {
             "group": "social",
             "category": "missing",
             "expressions": [
                 "(.+) has been missing for a week\\."
-            ]
+            ],
+            "color": "#80ff00"
         },
         {
             "group": "social",
@@ -644,14 +683,16 @@
                 "(.+) and the surrounding lands have been made a county\\.",
                 "(.+) and the surrounding lands have been made a duchy\\.",
                 "(.+), being the rightful heir, has inherited the position of ((king)|(queen)) of The (.+)\\."
-            ]
+            ],
+            "color": "#80ff00"
         },
         {
             "group": "profession",
             "category": "professionChange",
             "expressions": [
                 "(.+) has become a (.+)\\."
-            ]
+            ],
+            "color": "#c0c0c0"
         },
         {
             "group": "migrants",
@@ -662,7 +703,8 @@
                 "Some migrants have arrived\\.",
                 "Some migrants have arrived, despite the danger\\.",
                 "Some migrants have decided to brave this terrifying place, knowing it may be their tomb\\."
-            ]
+            ],
+            "color": "#954a4a"
         },
         {
             "group": "seasons",
@@ -675,7 +717,8 @@
                 "The wet season has arrived!",
                 "The dry season has come\\.",
                 "Nothing has arrived on the calendar."
-            ]
+            ],
+            "color": "#ffff80"
         },
         {
             "group": "weather",
@@ -687,7 +730,8 @@
                 "A cloud of (.+) has drifted nearby!",
                 "A snow storm has come\\.",
                 "The weather has cleared\\."
-            ]
+            ],
+            "color": "#ffffff"
         },
         {
             "group": "trading",
@@ -707,7 +751,8 @@
                 "The merchants need a trade depot to unload their goods\\.",
                 "(.+) cancels Trade at Depot: ((Not responsible for trade)|(Not broker))\\.",
                 "No outpost liaison\\?  How curious\\.\\.\\."
-            ]
+            ],
+            "color": "#80ff80"
         },
         {
             "group": "system",
@@ -717,7 +762,8 @@
                 "History Seed: (.+)",
                 "Name Seed: (.+)",
                 "Creature Seed: (.+)"
-            ]
+            ],
+            "color": "#808080"
         },
         {
             "group": "system",
@@ -731,14 +777,16 @@
                 "\\*\\* Loading Fortress \\*\\*",
                 "\\*\\* Starting New Arena \\*\\*",
                 "Loaded (.+) at coordinates (.+)"
-            ]
+            ],
+            "color": "#808080"
         },
         {
             "group": "system",
             "category": "load",
             "expressions": [
                 "Loaded the fortress (.+)"
-            ]
+            ],
+            "color": "#808080"
         },
         {
             "group": "emotion",
@@ -746,7 +794,8 @@
             "expressions": [
                 "(.+), (.+): (.+)",
                 "(.+): (.+)"
-            ]
+            ],
+            "color": "#804000"
         }
     ]
 }
