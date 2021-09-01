@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::path::PathBuf;
@@ -9,6 +10,8 @@ use serde::Deserialize;
 pub struct Settings {
     general: General,
     filters: Vec<Filter>,
+    highlights: HashMap<String, String>,
+    icons: HashMap<String, String>,
 }
 
 impl Settings {
@@ -33,14 +36,27 @@ impl Settings {
         self.general.gamelog_path.clone()
     }
 
+    pub fn translate_color(&self, name: &str) -> String {
+        self.general.named_colors[name].clone()
+    }
+
     pub fn get_filters(&self) -> &Vec<Filter> {
         &self.filters
+    }
+
+    pub fn get_highlights(&self) -> &HashMap<String, String> {
+        &self.highlights
+    }
+
+    pub fn get_icons(&self) -> &HashMap<String, String> {
+        &self.icons
     }
 }
 
 #[derive(Deserialize, Debug, Clone)]
 pub struct General {
     gamelog_path: PathBuf,
+    named_colors: HashMap<String, String>,
 }
 
 #[derive(Deserialize, Debug, Clone)]

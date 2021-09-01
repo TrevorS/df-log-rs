@@ -12,6 +12,8 @@ pub enum Event {
         group: Option<String>,
         category: Option<String>,
         color: Option<String>,
+        highlights: Vec<(String, String)>,
+        icons: Vec<(String, String)>,
     },
 }
 
@@ -26,15 +28,33 @@ impl EventFactory {
 
     pub fn create(&self, line: &str) -> Event {
         let line = String::from(line);
-        let filters = self.settings.get_filters();
 
-        for filter in filters {
+        let mut highlights = vec![];
+        let mut icons = vec![];
+
+        for (word, color) in self.settings.get_highlights() {
+            if line.contains(word) {
+                let color = self.settings.translate_color(&color);
+
+                highlights.push((word.to_owned(), color));
+            }
+        }
+
+        for (word, icon) in self.settings.get_icons() {
+            if line.contains(word) {
+                icons.push((word.to_owned(), icon.to_owned()))
+            }
+        }
+
+        for filter in self.settings.get_filters() {
             if filter.matches(&line) {
                 return Event::Announcement {
                     line,
                     group: Some(filter.group.to_owned()),
                     category: Some(filter.category.to_owned()),
                     color: filter.color.to_owned(),
+                    highlights,
+                    icons,
                 };
             }
         }
@@ -44,6 +64,8 @@ impl EventFactory {
             group: None,
             category: None,
             color: None,
+            highlights,
+            icons,
         }
     }
 }
