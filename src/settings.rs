@@ -47,6 +47,7 @@ pub struct General {
 pub struct Filter {
     pub group: String,
     pub category: String,
+    pub color: Option<String>,
     expressions: Vec<String>,
     #[serde(skip)]
     compiled: Vec<Regex>,

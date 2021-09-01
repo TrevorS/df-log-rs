@@ -11,6 +11,7 @@ pub enum Event {
         line: String,
         group: Option<String>,
         category: Option<String>,
+        color: Option<String>,
     },
 }
 
@@ -33,6 +34,7 @@ impl EventFactory {
                     line,
                     group: Some(filter.group.to_owned()),
                     category: Some(filter.category.to_owned()),
+                    color: filter.color.to_owned(),
                 };
             }
         }
@@ -41,6 +43,7 @@ impl EventFactory {
             line,
             group: None,
             category: None,
+            color: None,
         }
     }
 }
