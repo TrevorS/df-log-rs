@@ -3,48 +3,58 @@ use eframe::egui;
 use egui::text::{LayoutJob, TextFormat};
 use egui::Color32;
 
-pub struct Highlighter {
+// TODO: Implement more complex layout caching.
+pub struct CachingHighlighter {
     is_dark_mode: bool,
     string: String,
     output: LayoutJob,
+    highlighter: Highlighter,
 }
 
-impl Highlighter {
+impl Default for CachingHighlighter {
+    fn default() -> Self {
+        Self {
+            is_dark_mode: false,
+            string: "".to_owned(),
+            output: LayoutJob::default(),
+            highlighter: Highlighter {},
+        }
+    }
+}
+
+impl CachingHighlighter {
     pub fn highlight(&mut self, is_dark_mode: bool, string: &str) -> LayoutJob {
         if (is_dark_mode, string) != (self.is_dark_mode, &self.string) {
-            let monospace = egui::TextStyle::Monospace;
-
-            let mut normal_format = TextFormat::default();
-            normal_format.style = monospace;
-            normal_format.color = Color32::WHITE;
-            normal_format.background = Color32::BLACK;
-
-            let mut job = LayoutJob::default();
-            job.append(&string, 0.0, normal_format);
-
-            let mut fa = TextFormat::default();
-            fa.style = monospace;
-            fa.color = Color32::RED;
-            fa.background = Color32::BLACK;
-
-            job.append("\nHello Faith-Anne!", 0.0, fa);
-
-            self.is_dark_mode = is_dark_mode;
-            self.output = job;
+            self.output = self.highlighter.highlight(is_dark_mode, string);
         }
 
         self.output.clone()
     }
 }
 
-impl Default for Highlighter {
-    fn default() -> Self {
-        Self {
-            is_dark_mode: false,
-            string: "".to_owned(),
-            output: LayoutJob::default(),
-        }
+pub struct Highlighter {}
+
+impl Highlighter {
+    pub fn highlight(&mut self, _is_dark_mode: bool, string: &str) -> LayoutJob {
+        let format = create_text_format(Color32::WHITE, Color32::BLACK);
+
+        let mut job = LayoutJob::default();
+        job.append(&string, 0.0, format);
+
+        let fa = create_text_format(Color32::RED, Color32::BLACK);
+        job.append("\nHello Faith-Anne!", 0.0, fa);
+
+        job
     }
+}
+
+pub fn create_text_format(foreground: Color32, background: Color32) -> TextFormat {
+    let mut format = TextFormat::default();
+
+    format.color = foreground;
+    format.background = background;
+
+    format
 }
 
 pub fn hex_to_color(hex: &str) -> Color32 {

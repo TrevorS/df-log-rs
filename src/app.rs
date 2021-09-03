@@ -1,19 +1,19 @@
 use eframe::{egui, epi};
 
-use crate::highlighter::Highlighter;
+use crate::highlighter::CachingHighlighter;
 
 #[cfg_attr(feature = "persistence", derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "persistence", serde(default()))]
 pub struct App {
     line: String,
-    highlighter: Highlighter,
+    highlighter: CachingHighlighter,
 }
 
 impl Default for App {
     fn default() -> Self {
         Self {
             line: "Ada has become a Cook.".into(),
-            highlighter: Highlighter::default(),
+            highlighter: CachingHighlighter::default(),
         }
     }
 }
