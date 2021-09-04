@@ -6,7 +6,7 @@ use std::time::Duration;
 
 use notify::{DebouncedEvent, RecommendedWatcher, RecursiveMode, Watcher};
 
-use crate::event::{EventFactory, EventReceiver, EventSender};
+use crate::event::{Event, EventReceiver, EventSender};
 use crate::settings::Settings;
 
 pub struct Gamelog {
@@ -20,7 +20,6 @@ impl Gamelog {
 
     pub fn connect(&mut self) -> io::Result<EventReceiver> {
         let (es, er): (EventSender, EventReceiver) = mpsc::channel();
-        let event_factory = EventFactory::new(self.settings.clone());
 
         let path = self.settings.get_gamelog_path();
         let file = File::open(&path)?;
@@ -47,7 +46,7 @@ impl Gamelog {
                                 let line = line.trim();
 
                                 if !line.is_empty() {
-                                    let event = event_factory.create(line);
+                                    let event = Event::new(line);
                                     // TODO: I think I can handle this better by creating my own errors.
                                     es.send(event).unwrap()
                                 }
