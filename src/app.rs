@@ -1,5 +1,8 @@
+use std::sync::mpsc::TryRecvError;
+
 use eframe::{egui, epi};
 
+use crate::event::EventReceiver;
 use crate::highlighter::CachingHighlighter;
 use crate::settings::Settings;
 
@@ -8,19 +11,15 @@ use crate::settings::Settings;
 pub struct App {
     lines: Vec<String>,
     highlighter: CachingHighlighter,
+    rx: EventReceiver,
 }
 
 impl App {
-    pub fn new(settings: Settings) -> Self {
+    pub fn new(settings: Settings, rx: EventReceiver) -> Self {
         Self {
-            lines: vec![
-                "Trevor has been stung by a bee!".into(),
-                "Summer has arrived on the calendar.".into(),
-                "Faith-Anne, Sage is visiting.".into(),
-                "Ada has become a Fish Cleaner.".into(),
-                "Trevor, Farmer cancels Plant Seeds: Needs plump helmet spawn.".into(),
-            ],
+            lines: vec![],
             highlighter: CachingHighlighter::new(settings),
+            rx,
         }
     }
 }
@@ -43,6 +42,22 @@ impl epi::App for App {
     }
 
     fn update(&mut self, ctx: &egui::CtxRef, frame: &mut epi::Frame<'_>) {
+        let Self {
+            lines,
+            highlighter,
+            rx,
+        } = self;
+
+        match rx.try_recv() {
+            Ok(event) => {
+                lines.push(event.line);
+            }
+            Err(TryRecvError::Empty) => {}
+            Err(e) => {
+                panic!("{}", e);
+            }
+        }
+
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
             egui::menu::bar(ui, |ui| {
                 if ui.button("Quit").clicked() {
@@ -52,8 +67,6 @@ impl epi::App for App {
         });
 
         egui::CentralPanel::default().show(ctx, |ui| {
-            let Self { lines, highlighter } = self;
-
             let text_style = eframe::egui::TextStyle::Body;
             let row_height = ui.fonts()[text_style].row_height();
             let num_rows = lines.len();

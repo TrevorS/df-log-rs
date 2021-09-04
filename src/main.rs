@@ -20,11 +20,11 @@ const SETTINGS_PATH: &str = "./settings.json";
 
 fn main() {
     let settings = Settings::new(PathBuf::from(SETTINGS_PATH)).unwrap();
+
     let mut gamelog = Gamelog::new(settings.clone());
+    let rx = gamelog.connect().expect("Failed to read gamelog.txt!");
 
-    let _rx = gamelog.connect().expect("Failed to read gamelog.txt!");
-
-    let df_app = App::new(settings);
+    let df_app = App::new(settings, rx);
     let native_options = eframe::NativeOptions::default();
 
     eframe::run_native(Box::new(df_app), native_options);

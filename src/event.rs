@@ -10,8 +10,8 @@ pub enum EventType {
 
 #[derive(Debug)]
 pub struct Event {
-    event_type: EventType,
-    line: String,
+    pub event_type: EventType,
+    pub line: String,
 }
 
 impl Event {
