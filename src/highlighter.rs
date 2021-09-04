@@ -65,6 +65,12 @@ impl Highlighter {
         Self { settings }
     }
 
+    pub fn parse_lines(&self, lines: &str) -> Vec<ParsedLine> {
+        let lines = lines.split("\n");
+
+        lines.map(|l| self.parse_line(l)).collect()
+    }
+
     pub fn parse_line(&self, line: &str) -> ParsedLine {
         let line = String::from(line);
 
@@ -108,14 +114,15 @@ impl Highlighter {
         }
     }
 
-    pub fn highlight(&mut self, _is_dark_mode: bool, line: &str) -> LayoutJob {
+    pub fn highlight(&mut self, _is_dark_mode: bool, lines: &str) -> LayoutJob {
         let mut job = LayoutJob::default();
-        let parsed_line = self.parse_line(line);
+        let parsed_lines = self.parse_lines(lines);
 
-        dbg!(&parsed_line);
-
-        let text_format = create_text_format(parsed_line.get_base_text_color(), Color32::BLACK);
-        job.append(&parsed_line.line, 0.0, text_format);
+        for pl in parsed_lines {
+            let text_format = create_text_format(pl.get_base_text_color(), Color32::BLACK);
+            job.append(&pl.line, 0.0, text_format);
+            job.append("\n", 0.0, text_format);
+        }
 
         job
     }
