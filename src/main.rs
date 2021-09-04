@@ -12,6 +12,7 @@ mod settings;
 
 use std::path::PathBuf;
 
+use app::App;
 use gamelog::Gamelog;
 use settings::Settings;
 
@@ -23,7 +24,7 @@ fn main() {
 
     let _rx = gamelog.connect().expect("Failed to read gamelog.txt!");
 
-    let df_app = app::App::default();
+    let df_app = App::new(settings.clone());
     let native_options = eframe::NativeOptions::default();
 
     eframe::run_native(Box::new(df_app), native_options);

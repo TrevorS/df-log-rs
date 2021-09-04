@@ -1,9 +1,9 @@
-use eframe::egui;
+use eframe::egui::text::{LayoutJob, TextFormat};
+use eframe::egui::Color32;
 
-use egui::text::{LayoutJob, TextFormat};
-use egui::Color32;
+use crate::settings::Settings;
 
-// TODO: Implement more complex layout caching.
+// TODO: Implement more sophisticated layout caching.
 pub struct CachingHighlighter {
     is_dark_mode: bool,
     string: String,
@@ -11,13 +11,13 @@ pub struct CachingHighlighter {
     highlighter: Highlighter,
 }
 
-impl Default for CachingHighlighter {
-    fn default() -> Self {
+impl CachingHighlighter {
+    pub fn new(settings: Settings) -> Self {
         Self {
             is_dark_mode: false,
-            string: "".to_owned(),
+            string: "".into(),
             output: LayoutJob::default(),
-            highlighter: Highlighter {},
+            highlighter: Highlighter::new(settings),
         }
     }
 }
@@ -32,17 +32,90 @@ impl CachingHighlighter {
     }
 }
 
-pub struct Highlighter {}
+#[derive(Debug, Clone)]
+pub struct ParsedLine {
+    line: String,
+    group: Option<String>,
+    category: Option<String>,
+    color: Option<String>,
+    highlights: Vec<(String, String)>,
+    icons: Vec<(String, String)>,
+}
+
+impl ParsedLine {
+    pub fn get_words(&self) -> Vec<&str> {
+        self.line.split_whitespace().collect()
+    }
+
+    pub fn get_base_text_color(&self) -> Color32 {
+        if let Some(hex) = &self.color {
+            hex_to_color(&hex)
+        } else {
+            Color32::WHITE
+        }
+    }
+}
+
+pub struct Highlighter {
+    settings: Settings,
+}
 
 impl Highlighter {
-    pub fn highlight(&mut self, _is_dark_mode: bool, string: &str) -> LayoutJob {
-        let format = create_text_format(Color32::WHITE, Color32::BLACK);
+    pub fn new(settings: Settings) -> Self {
+        Self { settings }
+    }
 
+    pub fn parse_line(&self, line: &str) -> ParsedLine {
+        let line = String::from(line);
+
+        let mut highlights = vec![];
+        let mut icons = vec![];
+
+        for (word, color) in self.settings.get_highlights() {
+            if line.contains(word) {
+                let color = self.settings.translate_color(&color);
+
+                highlights.push((word.to_owned(), color));
+            }
+        }
+
+        for (word, icon) in self.settings.get_icons() {
+            if line.contains(word) {
+                icons.push((word.to_owned(), icon.to_owned()))
+            }
+        }
+
+        for filter in self.settings.get_filters() {
+            if filter.matches(&line) {
+                return ParsedLine {
+                    line,
+                    group: Some(filter.group.to_owned()),
+                    category: Some(filter.category.to_owned()),
+                    color: filter.color.to_owned(),
+                    highlights,
+                    icons,
+                };
+            }
+        }
+
+        ParsedLine {
+            line,
+            group: None,
+            category: None,
+            color: None,
+            highlights,
+            icons,
+        }
+    }
+
+    pub fn highlight(&mut self, _is_dark_mode: bool, line: &str) -> LayoutJob {
         let mut job = LayoutJob::default();
-        job.append(&string, 0.0, format);
+        let parsed_line = self.parse_line(line);
 
-        let fa = create_text_format(Color32::RED, Color32::BLACK);
-        job.append("\nHello Faith-Anne!", 0.0, fa);
+        dbg!(&parsed_line);
+
+        let text_format = create_text_format(parsed_line.get_base_text_color(), Color32::BLACK);
+        job.append(&parsed_line.line, 0.0, text_format);
 
         job
     }
