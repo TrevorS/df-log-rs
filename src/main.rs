@@ -24,7 +24,7 @@ fn main() {
 
     let _rx = gamelog.connect().expect("Failed to read gamelog.txt!");
 
-    let df_app = App::new(settings.clone());
+    let df_app = App::new(settings);
     let native_options = eframe::NativeOptions::default();
 
     eframe::run_native(Box::new(df_app), native_options);

@@ -36,8 +36,8 @@ impl Gamelog {
 
             loop {
                 match rx.recv() {
-                    Ok(event) => match event {
-                        DebouncedEvent::Write(_) => {
+                    Ok(event) => {
+                        if let DebouncedEvent::Write(_) = event {
                             // This really only works if the gamelog is only ever appended to. I think that's true?
                             let mut buffer = String::new();
                             reader.read_to_string(&mut buffer).unwrap();
@@ -52,8 +52,7 @@ impl Gamelog {
                                 }
                             }
                         }
-                        _ => {}
-                    },
+                    }
                     Err(e) => {
                         // TODO: Implement an event that we can gracefully exit on.
                         panic!("{}", e);

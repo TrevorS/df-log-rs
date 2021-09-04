@@ -50,7 +50,7 @@ impl ParsedLine {
     pub fn get_base_text_color(&self) -> Color32 {
         self.color
             .as_ref()
-            .map_or_else(|| Color32::WHITE, |hex| hex_to_color(&hex))
+            .map_or_else(|| Color32::WHITE, |hex| hex_to_color(hex))
     }
 
     pub fn get_highlights(&self) -> &Vec<(String, String)> {
@@ -68,7 +68,7 @@ impl Highlighter {
     }
 
     pub fn parse_lines(&self, lines: &str) -> Vec<ParsedLine> {
-        let lines = lines.split("\n");
+        let lines = lines.split('\n');
 
         lines.map(|l| self.parse_line(l)).collect()
     }
@@ -81,7 +81,7 @@ impl Highlighter {
 
         for (word, color) in self.settings.get_highlights() {
             if line.contains(word) {
-                let color = self.settings.translate_color(&color);
+                let color = self.settings.translate_color(color);
 
                 highlights.push((word.to_owned(), color));
             }
@@ -142,12 +142,11 @@ impl Highlighter {
 }
 
 pub fn create_text_format(foreground: Color32, background: Color32) -> TextFormat {
-    let mut format = TextFormat::default();
-
-    format.color = foreground;
-    format.background = background;
-
-    format
+    TextFormat {
+        color: foreground,
+        background,
+        ..Default::default()
+    }
 }
 
 pub fn hex_to_color(hex: &str) -> Color32 {

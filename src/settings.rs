@@ -25,7 +25,7 @@ impl Settings {
             filter.compiled = filter
                 .expressions
                 .iter()
-                .map(|e| Regex::new(&e).unwrap())
+                .map(|e| Regex::new(e).unwrap())
                 .collect();
         }
 
