@@ -48,11 +48,13 @@ impl ParsedLine {
     }
 
     pub fn get_base_text_color(&self) -> Color32 {
-        if let Some(hex) = &self.color {
-            hex_to_color(&hex)
-        } else {
-            Color32::WHITE
-        }
+        self.color
+            .as_ref()
+            .map_or_else(|| Color32::WHITE, |hex| hex_to_color(&hex))
+    }
+
+    pub fn get_highlights(&self) -> &Vec<(String, String)> {
+        &self.highlights
     }
 }
 
@@ -119,8 +121,19 @@ impl Highlighter {
         let parsed_lines = self.parse_lines(lines);
 
         for pl in parsed_lines {
-            let text_format = create_text_format(pl.get_base_text_color(), Color32::BLACK);
-            job.append(&pl.line, 0.0, text_format);
+            let mut text_format = create_text_format(pl.get_base_text_color(), Color32::BLACK);
+
+            for word in pl.get_words() {
+                for (highlight, hex) in pl.get_highlights() {
+                    if word == highlight {
+                        text_format.color = hex_to_color(hex)
+                    }
+                }
+
+                job.append(word, 0.0, text_format);
+                job.append(" ", 0.0, text_format);
+            }
+
             job.append("\n", 0.0, text_format);
         }
 

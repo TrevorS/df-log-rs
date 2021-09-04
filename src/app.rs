@@ -15,8 +15,10 @@ impl App {
         Self {
             lines: vec![
                 "Trevor has been stung by a bee!".into(),
-                "Ada has been stung by a bee!".into(),
-                "Faith-Anne has been stung by a bee!".into(),
+                "Summer has arrived on the calendar.".into(),
+                "Faith-Anne, Sage is visiting.".into(),
+                "Ada has become a Fish Cleaner.".into(),
+                "Trevor, Farmer cancels Plant Seeds: Needs plump helmet spawn.".into(),
             ],
             highlighter: CachingHighlighter::new(settings),
         }
