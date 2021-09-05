@@ -9,6 +9,12 @@ use notify::{DebouncedEvent, RecommendedWatcher, RecursiveMode, Watcher};
 use crate::event::{Event, EventReceiver, EventSender};
 use crate::settings::Settings;
 
+pub enum StartLocation {
+    Beginning,
+    BeginningOfFortress,
+    End,
+}
+
 pub struct Gamelog {
     settings: Settings,
 }
@@ -18,7 +24,7 @@ impl Gamelog {
         Self { settings }
     }
 
-    pub fn connect(&mut self) -> io::Result<EventReceiver> {
+    pub fn connect(&mut self, _start_location: StartLocation) -> io::Result<EventReceiver> {
         let (es, er): (EventSender, EventReceiver) = mpsc::channel();
 
         let path = self.settings.get_gamelog_path();
@@ -30,15 +36,18 @@ impl Gamelog {
             let mut watcher: RecommendedWatcher = Watcher::new(tx, Duration::from_secs(1)).unwrap();
             watcher.watch(path, RecursiveMode::NonRecursive).unwrap();
 
-            // TODO: Read from start of log if asked to.
+            // TODO: Implement start position handling logic here
             let mut reader = BufReader::new(file);
-            reader.seek(SeekFrom::End(0)).unwrap();
+            let start_position = SeekFrom::End(0);
+
+            reader.seek(start_position).unwrap();
 
             loop {
                 match rx.recv() {
                     Ok(event) => {
                         if let DebouncedEvent::Write(_) = event {
                             // This really only works if the gamelog is only ever appended to. I think that's true?
+                            // TODO: test pulling buffer out of loop
                             let mut buffer = String::new();
                             reader.read_to_string(&mut buffer).unwrap();
 
