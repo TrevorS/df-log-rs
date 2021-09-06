@@ -40,6 +40,8 @@ impl Gamelog {
         let path = self.settings.get_gamelog_path();
         let file = File::open(&path)?;
 
+        let coding = codepage_strings::Coding::new(437).unwrap();
+
         thread::spawn(move || {
             let (tx, rx) = mpsc::channel();
 
@@ -54,6 +56,7 @@ impl Gamelog {
 
             for line in reader.by_ref().lines() {
                 let line = line.unwrap();
+                let line = coding.decode(line.as_bytes()).unwrap();
 
                 if start == StartLocation::BeginningOfFortress
                     && line.contains("** Loading Fortress **")

@@ -37,7 +37,7 @@ impl epi::App for App {
         let mut fonts = FontDefinitions::default();
         fonts.font_data.insert(
             "cascadia".to_owned(),
-            std::borrow::Cow::Borrowed(include_bytes!("../fonts/cascadia/ttf/CascadiaCode.ttf")),
+            std::borrow::Cow::Borrowed(include_bytes!("../fonts/cascadia/ttf/CascadiaCodePL.ttf")),
         );
 
         fonts

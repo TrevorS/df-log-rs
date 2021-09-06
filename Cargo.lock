@@ -196,6 +196,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "codepage"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8b0e9222c0cdf2c6ac27d73f664f9520266fa911c3106329d359f8861cb8bde9"
+dependencies = [
+ "encoding_rs",
+]
+
+[[package]]
+name = "codepage-strings"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d34f25fc635bc3c98b4a0c707c99b7ffe7f51cb98b904d814e9c24441fad8c52"
+dependencies = [
+ "codepage",
+ "encoding_rs",
+ "oem_cp",
+]
+
+[[package]]
 name = "copypasta"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -409,6 +429,7 @@ dependencies = [
 name = "df-log-rs"
 version = "0.1.0"
 dependencies = [
+ "codepage-strings",
  "eframe",
  "notify",
  "regex",
@@ -494,6 +515,15 @@ dependencies = [
 name = "emath"
 version = "0.14.0"
 source = "git+https://github.com/emilk/egui#f9afdfa1431420ddabae5247f2ff4ab970eb05a2"
+
+[[package]]
+name = "encoding_rs"
+version = "0.8.28"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "80df024fbc5ac80f87dfef0d9f5209a252f2a497f7f42944cff24d8253cac065"
+dependencies = [
+ "cfg-if 1.0.0",
+]
 
 [[package]]
 name = "epaint"
@@ -1165,6 +1195,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "39f37e50073ccad23b6d09bcb5b263f4e76d3bb6038e4a3c08e52162ffa8abc2"
 dependencies = [
  "memchr",
+]
+
+[[package]]
+name = "oem_cp"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "56428601ad4b928c5b705e89eb2db6ae070de7bad96f0e1c2ae07288fdfff082"
+dependencies = [
+ "ahash",
+ "lazy_static",
 ]
 
 [[package]]
