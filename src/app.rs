@@ -1,13 +1,12 @@
 use std::sync::mpsc::TryRecvError;
 
 use eframe::{egui, epi};
+use egui::{FontDefinitions, FontFamily};
 
 use crate::event::{Event, EventReceiver};
 use crate::highlighter::CachingHighlighter;
 use crate::settings::Settings;
 
-#[cfg_attr(feature = "persistence", derive(serde::Deserialize, serde::Serialize))]
-#[cfg_attr(feature = "persistence", serde(default()))]
 pub struct App {
     lines: Vec<String>,
     highlighter: CachingHighlighter,
@@ -29,16 +28,25 @@ impl epi::App for App {
         "DF-Log-RS"
     }
 
-    #[cfg(feature = "persistence")]
     fn setup(
         &mut self,
-        _ctx: &egui::CtxRef,
+        ctx: &egui::CtxRef,
         _frame: &mut epi::Frame<'_>,
-        storage: Option<&dyn epi::Storage>,
+        _storage: Option<&dyn epi::Storage>,
     ) {
-        if let Some(storage) = storage {
-            *self = epi::get_value(storage, epi::APP_KEY).unwrap_or_default()
-        }
+        let mut fonts = FontDefinitions::default();
+        fonts.font_data.insert(
+            "cascadia".to_owned(),
+            std::borrow::Cow::Borrowed(include_bytes!("../fonts/cascadia/ttf/CascadiaCode.ttf")),
+        );
+
+        fonts
+            .fonts_for_family
+            .get_mut(&FontFamily::Proportional)
+            .unwrap()
+            .insert(0, "cascadia".to_owned());
+
+        ctx.set_fonts(fonts);
     }
 
     fn update(&mut self, ctx: &egui::CtxRef, frame: &mut epi::Frame<'_>) {
@@ -86,7 +94,6 @@ impl epi::App for App {
                 let mut text = lines[row_range].join("\n");
 
                 let log = egui::TextEdit::multiline(&mut text)
-                    .text_style(text_style)
                     .desired_width(f32::INFINITY)
                     .enabled(false)
                     .frame(false)
