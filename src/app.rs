@@ -92,7 +92,7 @@ impl epi::App for App {
                     .frame(false)
                     .layouter(&mut layouter);
 
-                ui.add(log);
+                ui.add_sized(ui.available_size(), log);
             });
         });
     }
