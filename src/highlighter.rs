@@ -121,7 +121,7 @@ impl Highlighter {
         let parsed_lines = self.parse_lines(lines);
 
         for pl in parsed_lines {
-            let mut text_format = create_text_format(pl.get_base_text_color(), Color32::BLACK);
+            let mut text_format = create_text_format(pl.get_base_text_color());
 
             for word in pl.get_words() {
                 for (highlight, hex) in pl.get_highlights() {
@@ -141,10 +141,9 @@ impl Highlighter {
     }
 }
 
-pub fn create_text_format(foreground: Color32, background: Color32) -> TextFormat {
+pub fn create_text_format(color: Color32) -> TextFormat {
     TextFormat {
-        color: foreground,
-        background,
+        color,
         ..Default::default()
     }
 }

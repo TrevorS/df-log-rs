@@ -72,7 +72,7 @@ impl epi::App for App {
 
         egui::CentralPanel::default().show(ctx, |ui| {
             let text_style = eframe::egui::TextStyle::Body;
-            let row_height = ui.fonts()[text_style].row_height();
+            let row_height = ui.fonts()[text_style].row_height() + ui.spacing().item_spacing.y;
             let num_rows = lines.len();
 
             let mut layouter = |ui: &egui::Ui, string: &str, wrap_width: f32| {
@@ -84,6 +84,7 @@ impl epi::App for App {
 
             egui::ScrollArea::vertical().show_rows(ui, row_height, num_rows, |ui, row_range| {
                 let mut text = lines[row_range].join("\n");
+
                 let log = egui::TextEdit::multiline(&mut text)
                     .text_style(text_style)
                     .desired_width(f32::INFINITY)
