@@ -36,15 +36,17 @@ impl epi::App for App {
     ) {
         let mut fonts = FontDefinitions::default();
         fonts.font_data.insert(
-            "cascadia".to_owned(),
-            std::borrow::Cow::Borrowed(include_bytes!("../fonts/cascadia/ttf/CascadiaCode.ttf")),
+            "firacode".to_owned(),
+            std::borrow::Cow::Borrowed(include_bytes!(
+                "../fonts/fira-code/Fira Code Regular Nerd Font Complete.ttf"
+            )),
         );
 
         fonts
             .fonts_for_family
             .get_mut(&FontFamily::Proportional)
             .unwrap()
-            .insert(0, "cascadia".to_owned());
+            .insert(0, "firacode".to_owned());
 
         ctx.set_fonts(fonts);
     }
