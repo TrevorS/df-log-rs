@@ -15,6 +15,15 @@ pub enum StartLocation {
     End,
 }
 
+impl From<StartLocation> for SeekFrom {
+    fn from(location: StartLocation) -> SeekFrom {
+        match location {
+            StartLocation::Beginning | StartLocation::BeginningOfFortress => SeekFrom::Start(0),
+            StartLocation::End => SeekFrom::End(0),
+        }
+    }
+}
+
 pub struct Gamelog {
     settings: Settings,
 }
@@ -24,7 +33,7 @@ impl Gamelog {
         Self { settings }
     }
 
-    pub fn connect(&mut self, _start_location: StartLocation) -> io::Result<EventReceiver> {
+    pub fn connect(&mut self, start: StartLocation) -> io::Result<EventReceiver> {
         let (es, er): (EventSender, EventReceiver) = mpsc::channel();
 
         let path = self.settings.get_gamelog_path();
@@ -33,14 +42,20 @@ impl Gamelog {
         thread::spawn(move || {
             let (tx, rx) = mpsc::channel();
 
+            // Read existing log first
+            let mut reader = BufReader::new(file);
+
+            // Get correct starting position.
+            let position: SeekFrom = start.into();
+            reader.seek(position).unwrap();
+
+            // TODO: Parse log and send intitial log event.
+            let event = Event::initial_log("");
+            es.send(event).unwrap();
+
+            // Watch for new writes to the log.
             let mut watcher: RecommendedWatcher = Watcher::new(tx, Duration::from_secs(1)).unwrap();
             watcher.watch(path, RecursiveMode::NonRecursive).unwrap();
-
-            // TODO: Implement start position handling logic here
-            let mut reader = BufReader::new(file);
-            let start_position = SeekFrom::End(0);
-
-            reader.seek(start_position).unwrap();
 
             loop {
                 match rx.recv() {
@@ -55,7 +70,7 @@ impl Gamelog {
                                 let line = line.trim();
 
                                 if !line.is_empty() {
-                                    let event = Event::new(line);
+                                    let event = Event::announcement(line);
                                     // TODO: I think I can handle this better by creating my own errors.
                                     es.send(event).unwrap()
                                 }

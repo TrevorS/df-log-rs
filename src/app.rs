@@ -2,7 +2,7 @@ use std::sync::mpsc::TryRecvError;
 
 use eframe::{egui, epi};
 
-use crate::event::EventReceiver;
+use crate::event::{EventReceiver, EventType};
 use crate::highlighter::CachingHighlighter;
 use crate::settings::Settings;
 
@@ -49,9 +49,13 @@ impl epi::App for App {
         } = self;
 
         match rx.try_recv() {
-            Ok(event) => {
-                lines.push(event.line);
-            }
+            Ok(event) => match event.event_type {
+                EventType::Announcement => lines.push(event.text),
+                EventType::InitialLog => {
+                    lines.clear();
+                    lines.append(&mut event.split_text());
+                }
+            },
             Err(TryRecvError::Empty) => {}
             Err(e) => {
                 panic!("{}", e);
