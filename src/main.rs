@@ -23,7 +23,7 @@ fn main() {
 
     let mut gamelog = Gamelog::new(settings.clone());
     let rx = gamelog
-        .connect(StartLocation::End)
+        .connect(StartLocation::BeginningOfFortress)
         .expect("Failed to read gamelog.txt!");
 
     let df_app = App::new(settings, rx);

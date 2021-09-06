@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{self, BufReader, Read, Seek, SeekFrom};
+use std::io::{self, BufRead, BufReader, Read, Seek, SeekFrom};
 use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
@@ -9,6 +9,7 @@ use notify::{DebouncedEvent, RecommendedWatcher, RecursiveMode, Watcher};
 use crate::event::{Event, EventReceiver, EventSender};
 use crate::settings::Settings;
 
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub enum StartLocation {
     Beginning,
     BeginningOfFortress,
@@ -42,28 +43,41 @@ impl Gamelog {
         thread::spawn(move || {
             let (tx, rx) = mpsc::channel();
 
-            // Read existing log first
-            let mut reader = BufReader::new(file);
-
             // Get correct starting position.
             let position: SeekFrom = start.into();
+
+            let mut reader = BufReader::new(file);
             reader.seek(position).unwrap();
 
-            // TODO: Parse log and send intitial log event.
-            let event = Event::initial_log("");
+            // Parse log and send intitial event.
+            let mut head = vec![];
+
+            for line in reader.by_ref().lines() {
+                let line = line.unwrap();
+
+                if start == StartLocation::BeginningOfFortress
+                    && line.contains("** Loading Fortress **")
+                {
+                    head = vec![];
+                }
+
+                head.push(line.trim().to_owned());
+            }
+
+            let event = Event::initial_log(head);
             es.send(event).unwrap();
 
             // Watch for new writes to the log.
             let mut watcher: RecommendedWatcher = Watcher::new(tx, Duration::from_secs(1)).unwrap();
             watcher.watch(path, RecursiveMode::NonRecursive).unwrap();
 
+            let mut buffer = String::new();
+
             loop {
                 match rx.recv() {
                     Ok(event) => {
                         if let DebouncedEvent::Write(_) = event {
                             // This really only works if the gamelog is only ever appended to. I think that's true?
-                            // TODO: test pulling buffer out of loop
-                            let mut buffer = String::new();
                             reader.read_to_string(&mut buffer).unwrap();
 
                             for line in buffer.lines() {
