@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{self, BufRead, BufReader, Read, Seek, SeekFrom};
+use std::io::{self, BufReader, Read, Seek, SeekFrom};
 use std::sync::mpsc;
 use std::thread;
 use std::time::Duration;
@@ -40,6 +40,8 @@ impl Gamelog {
         let path = self.settings.get_gamelog_path();
         let file = File::open(&path)?;
 
+        let coding = codepage_strings::Coding::new(437).unwrap();
+
         thread::spawn(move || {
             let (tx, rx) = mpsc::channel();
 
@@ -49,12 +51,14 @@ impl Gamelog {
             let mut reader = BufReader::new(file);
             reader.seek(position).unwrap();
 
+            let mut buffer = vec![];
+            reader.read_to_end(&mut buffer).unwrap();
+
             // Parse log and send intitial event.
             let mut head = vec![];
 
-            for line in reader.by_ref().lines() {
-                let line = line.unwrap();
-
+            let decoded = coding.decode(&buffer).unwrap();
+            for line in decoded.lines() {
                 if start == StartLocation::BeginningOfFortress
                     && line.contains("** Loading Fortress **")
                 {
@@ -71,16 +75,15 @@ impl Gamelog {
             let mut watcher: RecommendedWatcher = Watcher::new(tx, Duration::from_secs(1)).unwrap();
             watcher.watch(path, RecursiveMode::NonRecursive).unwrap();
 
-            let mut buffer = String::new();
-
             loop {
                 match rx.recv() {
                     Ok(event) => {
                         if let DebouncedEvent::Write(_) = event {
                             // This really only works if the gamelog is only ever appended to. I think that's true?
-                            reader.read_to_string(&mut buffer).unwrap();
+                            reader.read_to_end(&mut buffer).unwrap();
 
-                            for line in buffer.lines() {
+                            let decoded = coding.decode(&buffer).unwrap();
+                            for line in decoded.lines() {
                                 let line = line.trim();
 
                                 if !line.is_empty() {
