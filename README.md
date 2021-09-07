@@ -9,4 +9,4 @@
 - [x] Reading and parsing the DF `gamelog.txt`
 - [x] Combined configuration
 - [x] GUI proof of concept
-- [] Further fleshed out GUI
+- [ ] Further fleshed out GUI
