@@ -9,17 +9,24 @@ use notify::{DebouncedEvent, RecommendedWatcher, RecursiveMode, Watcher};
 use crate::event::{Event, EventReceiver, EventSender};
 use crate::settings::Settings;
 
+const LOADING_FORTRESS: &str = "** Loading Fortress **";
+const STARTING_NEW_OUTPOST: &str = "** Starting New Outpost **";
+
+fn is_beginning_of_game(line: &str) -> bool {
+    line.contains(LOADING_FORTRESS) || line.contains(STARTING_NEW_OUTPOST)
+}
+
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub enum StartLocation {
     Beginning,
-    BeginningOfFortress,
+    BeginningOfGame,
     End,
 }
 
 impl From<StartLocation> for SeekFrom {
     fn from(location: StartLocation) -> SeekFrom {
         match location {
-            StartLocation::Beginning | StartLocation::BeginningOfFortress => SeekFrom::Start(0),
+            StartLocation::Beginning | StartLocation::BeginningOfGame => SeekFrom::Start(0),
             StartLocation::End => SeekFrom::End(0),
         }
     }
@@ -59,13 +66,11 @@ impl Gamelog {
 
             let decoded = coding.decode(&buffer).unwrap();
             for line in decoded.lines() {
-                if start == StartLocation::BeginningOfFortress
-                    && line.contains("** Loading Fortress **")
-                {
-                    head = vec![];
+                if start == StartLocation::BeginningOfGame && is_beginning_of_game(&line) {
+                    head.clear();
                 }
 
-                head.push(line.trim().to_owned());
+                head.push(line.trim().into());
             }
 
             let event = Event::initial_log(head);

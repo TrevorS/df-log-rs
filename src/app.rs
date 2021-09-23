@@ -36,9 +36,9 @@ impl epi::App for App {
     ) {
         let mut fonts = FontDefinitions::default();
         fonts.font_data.insert(
-            "firacode".to_owned(),
+            "cascadia".into(),
             std::borrow::Cow::Borrowed(include_bytes!(
-                "../fonts/fira-code/Fira Code Regular Nerd Font Complete.ttf"
+                "../fonts/CascadiaCode-2108.26/ttf/CascadiaCode.ttf"
             )),
         );
 
@@ -46,7 +46,7 @@ impl epi::App for App {
             .fonts_for_family
             .get_mut(&FontFamily::Proportional)
             .unwrap()
-            .insert(0, "firacode".to_owned());
+            .insert(0, "cascadia".into());
 
         ctx.set_fonts(fonts);
     }
@@ -77,6 +77,10 @@ impl epi::App for App {
                 if ui.button("Quit").clicked() {
                     frame.quit();
                 }
+
+                if ui.button("Clear").clicked() {
+                    lines.clear();
+                }
             })
         });
 
@@ -93,7 +97,14 @@ impl epi::App for App {
             };
 
             egui::ScrollArea::vertical().show_rows(ui, row_height, num_rows, |ui, row_range| {
-                let mut text = lines[row_range].join("\n");
+                let mut text: String;
+
+                // INFO: Ran into panic where index was larger than length after clearing buffer.
+                if lines.is_empty() {
+                    text = "".into();
+                } else {
+                    text = lines[row_range].join("\n");
+                }
 
                 let log = egui::TextEdit::multiline(&mut text)
                     .desired_width(f32::INFINITY)
